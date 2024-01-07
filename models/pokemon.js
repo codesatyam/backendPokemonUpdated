@@ -44,9 +44,9 @@ const schema = new mongoose.Schema(
       default: Date.now,
     },
   },
-  { 
-    timestamps: true
-   }
+  {
+    timestamps: true,
+  }
 );
 schema.index({ id: 1, user: 1 }, { unique: true });
 

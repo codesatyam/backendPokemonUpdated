@@ -6,7 +6,7 @@ import cookieParser from "cookie-parser";
 import { errorMiddleware } from "./middlewares/error.js";
 import cors from "cors";
 import cron from "node-cron";
-import {decreaseHealthStatus} from "./controllers/decreasehealth.js";
+import { decreaseHealthStatus } from "./controllers/decreasehealth.js";
 
 export const app = express();
 
@@ -33,6 +33,6 @@ app.get("/", (req, res) => {
   res.send("Nice working");
 });
 
-cron.schedule('* * * * *', decreaseHealthStatus);
+cron.schedule("* * * * *", decreaseHealthStatus);
 // Using Error Middleware
 app.use(errorMiddleware);

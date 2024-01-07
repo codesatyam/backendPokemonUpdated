@@ -18,21 +18,49 @@ export const isAuthenticated = async (req, res, next) => {
   req.user = await User.findById(decoded._id);
   next();
 };
-
-
-export const authorizeRoles =  (...roles) => {
+export const authorizeRoles = (...roles) => {
   return async (req, res, next) => {
     const _id = req.params._id;
+    console.log(_id);
     const data = await User.findOne({ _id });
-    console.log(data)
-    if (!roles.includes(data)) {
+    console.log(data);
+
+    if (!data) {
       return res.status(404).json({
         success: false,
-        message: `Role: ${data} is not allowed to access this resouce `,
+        message: "User not found",
       });
-      
+    }
+
+    const userRole = data.usertype; // Assuming the user role is stored in the 'usertype' property of the user object
+
+    if (!roles.includes(userRole)) {
+      return res.status(403).json({
+        success: false,
+        message: `Role '${userRole}' is not allowed to access this resource`,
+      });
     }
 
     next();
   };
 };
+
+
+
+// export const authorizeRoles =  (...roles) => {
+//   return async (req, res, next) => {
+//     const _id = req.params._id;
+//     console.log(_id);
+//     const data = await User.findOne({ _id });
+//     console.log(data);
+//     if (!roles.includes(data)) {
+//       return res.status(404).json({
+//         success: false,
+//         message: `Role: ${data} is not allowed to access this resouce `,
+//       });
+      
+//     }
+
+//     next();
+//   };
+// };
